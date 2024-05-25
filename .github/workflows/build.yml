@@ -24,3 +24,16 @@ jobs:
       #   timeout-minutes: 5
       #   env:
       #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
+      - name: NPM Install
+        run: npm install
+        
+      - name: Docker build and push
+        run: |
+          # Run commands to build and push Docker images
+          docker build -t swiggy .
+          docker tag swiggy vikr1997/swiggy:latest
+          docker login -u ${{ secrets.Dockerhub_username }} -p ${{ secrets.Dockerhub_token }}
+          docker push vikr1997/swiggy:latest
+        env:
+          DOCKER_CLI_ACI: 1
